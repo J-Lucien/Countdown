@@ -3,6 +3,7 @@ import moment from "moment"
 import Timer from "./Timer"
 import Controls from "./Controls"
 import Datepicker from "./Datepicker"
+import Footer from "../footer/Footer"
 
 export default class Countdown extends Component{
     // constructor(props){
@@ -82,9 +83,10 @@ export default class Countdown extends Component{
                 <Datepicker onDateReset={this.handleDateReset} />
 
                 <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
-                
+
                 </div>
             </div>
+            <Footer />
         </section>
     }
 
