@@ -24,7 +24,8 @@ export default class Datepicker extends Component{
 
     handleDateSubmit =(e) =>{
         e.preventDefault()
-        this.props.onDateReset(moment(this.state.date))
+        const date = moment(this.state.date);
+        date.isValid() && date.isAfter(moment()) && this.props.onDateReset(date)
     }
 
     render(){
