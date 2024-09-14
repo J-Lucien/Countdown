@@ -1,6 +1,6 @@
 const Footer = (props) =>
-<footer class="footer">
-  <div class="content has-text-centered">
+<footer className="footer">
+  <div className="content has-text-centered">
     <p>
       <strong>Currently</strong> in development
     </p>
