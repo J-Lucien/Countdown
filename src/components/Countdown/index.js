@@ -3,7 +3,6 @@ import moment from "moment"
 import Timer from "./Timer"
 import Controls from "./Controls"
 import Datepicker from "./Datepicker"
-import Footer from "../footer/Footer"
 import HolidaysModal from "./HolidaysModal"
 import Holidays from 'date-holidays';
 import axios from "axios"
@@ -25,7 +24,6 @@ export default class Countdown extends Component{
         nextDate:moment({year: moment().year() +1}),
         paused:false,
         showHolidaysModal:false,
-        timezone:Intl.DateTimeFormat().resolvedOptions().timeZone,
         holidays:[],
         countryCode:null
     }
@@ -54,10 +52,10 @@ export default class Countdown extends Component{
         if(!paused){
             this.resume()
         }
+        const nextState = {paused}
+        !paused && (nextState.currentDate = moment())
 
-        return {
-            paused
-        }
+        return nextState
        })
     }
 
@@ -70,10 +68,10 @@ export default class Countdown extends Component{
     }
 
     handleDateReset =(userDate)=> {
-        console.log(userDate);
         this.setState({
             nextDate:userDate
         })
+        this.fetchCountryCode()
     }
 
     handleHolidaysModal = () =>{
@@ -84,7 +82,7 @@ export default class Countdown extends Component{
 
     fetchHolidays =(countryCode)=>{
         const hd = new Holidays(countryCode);
-        const holidays = hd.getHolidays(this.state.currentDate.year())
+        const holidays = hd.getHolidays(this.state.nextDate.year())
         this.setState({
             holidays
         })
@@ -105,7 +103,7 @@ export default class Countdown extends Component{
     }
 
     render(){
-        const {paused,showHolidaysModal,timezone,holidays} = this.state
+        const {paused,showHolidaysModal,holidays,nextDate} = this.state
         const duration = this.getRemainingTime()
         return <section className="hero is-dark is-bold is-fullheight has-text-centered">
         <div className="hero-body">
@@ -118,19 +116,23 @@ export default class Countdown extends Component{
                     <Timer duration={duration} />
                 </section>
 
-                <section className="section">
-                    <h1>{timezone}</h1>
-                </section>
-
                 <Datepicker onDateReset={this.handleDateReset} />
 
                 <Controls paused={paused} onPausedToggle={this.handlePausedToggle} />
 
-                <HolidaysModal holidays={holidays} active={showHolidaysModal} onHolidaysToggle={this.handleHolidaysModal} />
+                <section className="section">
+                    <i>{nextDate.format('LLLL (UTCZ)')}</i>
+                </section>
+
+                {
+                    showHolidaysModal && (
+                        <HolidaysModal holidays={holidays} active={showHolidaysModal} onHolidaysToggle={this.handleHolidaysModal} />
+                    )
+                }
+                
 
                 </div>
             </div>
-            <Footer />
         </section>
     }
 

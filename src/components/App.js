@@ -1,9 +1,10 @@
 import Countdown from './Countdown'
 
-function App() {
-  return (
-    <Countdown/>    
-  );
-}
+// function App() {
+//   return (
+//     <Countdown/>    
+//   );
+// }
 
-export default App;
+// eslint-disable-next-line import/no-anonymous-default-export
+export default () => <Countdown/>;

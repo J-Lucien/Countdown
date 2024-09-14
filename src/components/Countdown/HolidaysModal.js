@@ -1,12 +1,12 @@
 import moment from "moment/moment"
 
-const formatDate = (currentDate) =>{
-    const parsedDate = moment(currentDate, moment.ISO_8601, true); // Strict mode for ISO 8601
+const formatDate = (nextDate) =>{
+    const parsedDate = moment(nextDate, moment.ISO_8601, true); // Strict mode for ISO 8601
     
     if(parsedDate.isValid()){
         return parsedDate.format('MM/DD/YYYY')
     }
-    return moment(currentDate, "YYYY-MM-DD HH:mm:ss Z").format("MM/DD/YYYY");
+    return moment(nextDate, "YYYY-MM-DD HH:mm:ss Z").format("MM/DD/YYYY");
 }
 
 const HolidaysModal = ({active,onHolidaysToggle,holidays}) =>
